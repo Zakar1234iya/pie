@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login & Registration</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100 flex items-center justify-center h-screen">
+    <div class="bg-white p-8 rounded shadow-md w-full max-w-4xl">
+        <div class="flex justify-between mb-8">
+            <div class="w-1/2 pr-4">
+                <h2 class="text-2xl font-semibold mb-4">Registration</h2>
+                <form method="post" action="/register">
+                    {% csrf_token %}
+                    <div class="mb-4">
+                        <label for="fname" class="block text-gray-700">First Name</label>
+                        <input type="text" class="w-full border border-gray-400 p-2 rounded" id="fname" name="fname" required>
+                    </div>
+                    <div class="mb-4">
+                        <label for="lname" class="block text-gray-700">Last Name</label>
+                        <input type="text" class="w-full border border-gray-400 p-2 rounded" id="lname" name="lname" required>
+                    </div>
+                    <div class="mb-4">
+                        <label for="email" class="block text-gray-700">Email</label>
+                        <input type="email" class="w-full border border-gray-400 p-2 rounded" name="email" id="email" required>
+                    </div>
+                    <div class="mb-4">
+                        <label for="password" class="block text-gray-700">Password</label>
+                        <input type="password" class="w-full border border-gray-400 p-2 rounded" name="password" id="password" required>
+                    </div>
+                    <div class="mb-4">
+                        <label for="re_password" class="block text-gray-700">Confirm PW</label>
+                        <input type="password" class="w-full border border-gray-400 p-2 rounded" id="re_password" name="re_password" required>
+                    </div>
+                    <button type="submit" class="bg-gray-300 text-black px-4 py-2 rounded">Register</button>
+                </form>
+                {% if messages %}
+                <div class="mb-4 text-red-500">
+                    {% for message in messages %}
+                    {% if 'register' in message.tags %}
+                    <p>{{ message }}</p>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+                {% endif %}
+                {% if messages %}
+                <div class="mb-4 text-green-500">
+                    {% for message in messages %}
+                    {% if 'success' in message.tags %}
+                    <p>{{ message }}</p>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+            <div class="w-1/2 pl-4">
+                <h2 class="text-2xl font-semibold mb-4">Login</h2>
+                <form method="post" action="/login">
+                    {% csrf_token %}
+                    <div class="mb-4">
+                        <label for="email" class="block text-gray-700">Email</label>
+                        <input type="email" class="w-full border border-gray-400 p-2 rounded" name="email" id="email" required>
+                    </div>
+                    <div class="mb-4">
+                        <label for="password" class="block text-gray-700">Password</label>
+                        <input type="password" class="w-full border border-gray-400 p-2 rounded" name="password" id="password" required>
+                    </div>
+                    <button type="submit" class="bg-gray-300 text-black px-4 py-2 rounded">Log In</button>
+                </form>
+                {% if messages %}
+                <div class="mb-4 text-red-500">
+                    {% for message in messages %}
+                    {% if 'login' in message.tags %}
+                    <p>{{ message }}</p>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

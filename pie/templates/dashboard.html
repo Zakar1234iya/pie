@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pies by {{ request.session.fname }}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+    </style>
+</head>
+
+<body class="p-8">
+    <div class="flex justify-between items-start">
+        <div>
+            <p class="text-lg">Welcome, {{ request.session.fname }}</p>
+            <a href="/logout" class="text-blue-500">Log Out</a>
+        </div>
+    </div>
+    <div class="flex mt-8">
+        <div class="w-1/2">
+            <h1 class="text-2xl font-bold mb-4">Pies by {{ request.session.fname }}</h1>
+            <table class="min-w-full bg-white border border-gray-300">
+                <thead>
+                    <tr>
+                        <th class="py-2 px-4 border-b text-left">Name</th>
+                        <th class="py-2 px-4 border-b text-left">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for pie in pies %}
+                    <tr>
+                        <td class="py-2 px-4 border-b">{{ pie.piename }}</td>
+                        <td class="py-2 px-4 border-b">
+                            <a href="{% url 'edit_pie' pie.id %}" class="text-blue-600">edit</a> |
+                            <a href="{% url 'delete_pie' pie.id %}" class="text-blue-600">delete</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>            
+            <a href="{% url 'all_pies' %}" class="text-blue-600 mt-4 inline-block">Go to All Pies >></a>
+        </div>
+        <div class="w-1/2 pl-8">
+            <h1 class="text-2xl font-bold mb-4">Add a New Pie</h1>
+            <p class="text-red-600 mb-2">{% if messages %}
+            <div class="mb-4 text-green-500">
+                {% for message in messages %}
+                {% if 'success' in message.tags %}
+                <p>{{ message }}</p>
+                {% endif %}
+                {% endfor %}
+            </div>
+            {% endif %} {% if messages %}
+            <div class="mb-4 text-red-500">
+                {% for message in messages %}
+                {% if 'failed' in message.tags %}
+                <p>{{ message }}</p>
+                {% endif %}
+
+                {% endfor %}
+            </div>
+            {% endif %} </p>
+            </p>
+
+            <form method="post" action="/add_pie">
+                {% csrf_token %}
+                <div class="mb-4">
+                    <label for="name" class="block">Name</label>
+                    <input type="text" id="name" class="border border-gray-300 p-2 w-full" name="piename">
+                </div>
+                <div class="mb-4">
+                    <label for="filling" class="block">Filling</label>
+                    <input type="text" id="filling" class="border border-gray-300 p-2 w-full" name="filling">
+                </div>
+                <div class="mb-4">
+                    <label for="crust" class="block">Crust</label>
+                    <input type="text" id="crust" class="border border-gray-300 p-2 w-full" name="crust">
+                </div>
+                <button type="submit" class="bg-gray-300 p-2">Add Pie</button>
+            </form>
+        </div>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit pie</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-white p-8">
+    <div class="max-w-md mx-auto">
+        <div class="flex justify-end">
+            <a href="/logout" class="text-blue-500">Log Out</a>  
+        </div>
+        <h1 class="text-2xl font-bold mt-4">Edit {{ pie.piename }}</h1>
+        <form class="mt-4" method="post" action="{% url 'update_pie' %}">
+            {% csrf_token %}
+            <input type="hidden" name="pie_id" value="{{ pie.id }}">
+            <div class="mb-4">
+                <label for="piename" class="block text-gray-700">Name</label>
+                <input type="text" value="{{ pie.piename }}" class="w-full border border-gray-400 p-2" id="piename" name="piename">
+            </div>
+            <div class="mb-4">
+                <label for="filling" class="block text-gray-700">Filling</label>
+                <input type="text" value="{{ pie.filling }}" class="w-full border border-gray-400 p-2" id="filling" name="filling">
+            </div>
+            <div class="mb-4">
+                <label for="crust" class="block text-gray-700">Crust</label>
+                <input type="text" class="w-full border border-gray-400 p-2" id="crust" value="{{ pie.crust }}" name="crust">
+            </div>
+            <button type="submit" class="bg-gray-300 text-black py-2 px-4 rounded">Update Pie</button>
+        </form>
+        <div class="mt-4">
+            <a href="{% url 'dashboard' %}" class="text-blue-600">&lt;&lt; Back to My Pies</a>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pie Details</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"></link>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 p-4">
+    <div class="max-w-md mx-auto bg-white border border-gray-300 p-4 rounded shadow">
+        <div class="flex justify-between items-center mb-4">
+            <a href="{% url 'dashboard' %}" class="text-blue-600 text-sm">&lt;&lt; Back to My Pies</a>
+            <a href="{% url 'logout' %}" class="text-blue-500">Log Out</a>
+        </div>
+        <div class="text-center">
+            <h1 class="text-2xl font-bold mb-2">{{ pie.piename }}</h1>
+            <p class="text-gray-600 mb-4">By {{ pie.baker.fname }}</p>
+            <p class="text-gray-800 mb-4">{{ pie.filling }}<br>{{ pie.crust }}</p>
+            
+            {% if user_voted %}
+            <form action="{% url 'downvote' %}" method="post">
+                {% csrf_token %}
+                <input type="hidden" name="pie_id" value="{{ pie.id }}">
+                <div class="border border-purple-500 p-4 rounded mb-4">
+                    <p class="text-purple-500 font-bold mb-2">You voted for this.</p>
+                    <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Remove Vote</button>
+                </div>
+            </form>
+            {% else %}
+            <form action="{% url 'upvote' %}" method="post">
+                {% csrf_token %}
+                <input type="hidden" name="pie_id" value="{{ pie.id }}">
+                <div class="border border-purple-500 p-4 rounded mb-4">
+                    <p class="text-purple-500 font-bold mb-2">Cast a vote!</p>
+                    <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Delicious</button>
+                </div>
+            </form>
+            {% endif %}
+        </div>
+    </div>
+    <script>
+        $(document).ready(function(){
+            {% if user_voted %}
+                $("#downvote").show();
+                $("#upvote").hide();
+            {% else %}
+                $("#downvote").hide();
+                $("#upvote").show();
+            {% endif %}
+        });
+    </script>
+</body>
+</html>
